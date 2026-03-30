@@ -4,7 +4,10 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { Shop } from '@/types/shop';
-import Image from 'next/image';
+// import Image from 'next/image';
+import { Sidebar } from '@/components/Sidebar/Sidebar';
+import { ProductFilters } from '@/components/ProductFilters/ProductFilters';
+import { ProductGrid } from '@/components/ProductList/ProductList';
 
 export default function Home() {
   const [shops, setShops] = useState<Shop[]>([]);
@@ -15,6 +18,9 @@ export default function Home() {
     max: 5,
   });
 
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [sortBy, setSortBy] = useState<string>('default');
+
   // Фільтруємо список магазинів перед виводом у сайдбар
   const filteredShops = useMemo(() => {
     return shops.filter(
@@ -22,6 +28,48 @@ export default function Home() {
         shop.rating >= ratingRange.min && shop.rating <= ratingRange.max,
     );
   }, [shops, ratingRange]);
+
+  // const allCategories = useMemo(() => {
+  //   if (!activeShop || !activeShop.products) return [];
+  //   const rawCategories = activeShop.products.map((p) => p.category);
+  //   return Array.from(new Set(rawCategories));
+  // }, [activeShop]);
+
+  const allCategories = useMemo(() => {
+    if (!activeShop || !activeShop.products) return [];
+    return Array.from(new Set(activeShop.products.map((p) => p.category)));
+  }, [activeShop]);
+
+  const displayedProducts = useMemo(() => {
+    // 1. Якщо магазин не обраний, показувати нічого
+    if (!activeShop || !activeShop.products) return [];
+
+    // 2. Робимо копію масиву товарів, щоб не псувати оригінал
+    let result = [...activeShop.products];
+
+    // 3. ФІЛЬТРАЦІЯ за категоріями (Мультиселект)
+    if (selectedCategories.length > 0) {
+      result = result.filter((product) =>
+        selectedCategories.includes(product.category),
+      );
+    }
+
+    // 4. СОРТУВАННЯ
+    result.sort((a, b) => {
+      switch (sortBy) {
+        case 'price-asc':
+          return a.price - b.price;
+        case 'price-desc':
+          return b.price - a.price;
+        case 'name-az':
+          return a.name.localeCompare(b.name);
+        default:
+          return 0; // За замовчуванням залишаємо як є
+      }
+    });
+
+    return result;
+  }, [activeShop, selectedCategories, sortBy]); // 👈 Стежимо за всіма змінами
 
   useEffect(() => {
     const fetchShops = async () => {
@@ -45,7 +93,13 @@ export default function Home() {
   return (
     <main className="flex min-h-screen bg-zinc-950 text-zinc-100 p-6 gap-6">
       {/* ЛІВА ЧАСТИНА: Список магазинів */}
-      <aside className="w-1/4 bg-zinc-900 rounded-2xl p-6 border border-zinc-800">
+      <Sidebar
+        shops={filteredShops}
+        activeShopId={activeShop?._id}
+        onShopSelect={setActiveShop}
+        onRatingChange={setRatingRange}
+      />
+      {/* <aside className="w-1/4 bg-zinc-900 rounded-2xl p-6 border border-zinc-800">
         <div className="mb-4 px-4">
           <label className="text-xs text-zinc-500 uppercase font-bold tracking-wider">
             Rating
@@ -80,11 +134,8 @@ export default function Home() {
                     : 'bg-zinc-800 border-zinc-700 hover:border-zinc-500 text-zinc-400'
                 }`}
               >
-                {/* {shop.name} */}
                 <div className="flex justify-between items-center">
                   <span className="font-medium">{shop.name}</span>
-
-                  {/* РЕЙТИНГ */}
                   <div className="flex items-center gap-1 text-xs">
                     <span className="text-yellow-400">★</span>
                     <span
@@ -102,12 +153,28 @@ export default function Home() {
             ))
           )}
         </div>
-      </aside>
+      </aside> */}
 
       {/* ПРАВА ЧАСТИНА: Товари обраного магазину */}
       <section className="flex-1 bg-zinc-900 rounded-2xl p-6 border border-zinc-800 overflow-y-auto max-h-[90vh]">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {activeShop?.products.map((product) => (
+        {/* fslter  */}
+        <ProductFilters
+          categories={allCategories}
+          selectedCategories={selectedCategories}
+          onCategoryChange={(cat) => {
+            setSelectedCategories((prev) =>
+              prev.includes(cat)
+                ? prev.filter((c) => c !== cat)
+                : [...prev, cat],
+            );
+          }}
+          onClearCategories={() => setSelectedCategories([])}
+          sortBy={sortBy}
+          onSortChange={setSortBy}
+        />
+        <ProductGrid products={displayedProducts} />
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {displayedProducts.map((product) => (
             <div
               key={product._id}
               className="bg-zinc-800 rounded-xl overflow-hidden border border-zinc-700 hover:scale-[1.02] transition-transform"
@@ -131,7 +198,7 @@ export default function Home() {
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
       </section>
     </main>
   );
