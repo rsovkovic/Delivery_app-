@@ -43,6 +43,9 @@ export default function CartPage() {
       });
       const result = await response.json();
       if (response.ok) {
+        if (data.email) localStorage.setItem('userEmail', data.email);
+        if (data.phone) localStorage.setItem('userPhone', data.phone);
+
         alert('Order successfully created!');
         clearCart();
         reset();

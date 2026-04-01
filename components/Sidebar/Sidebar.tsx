@@ -19,7 +19,6 @@ export const Sidebar = ({
     <aside className="w-1/4 border bg-zinc-900 rounded-2xl border-zinc-800 p-6 flex flex-col gap-6">
       <h2 className="text-xl font-bold">Shops</h2>
 
-      {/* Фільтр рейтингу*/}
       <div className="flex flex-col gap-2">
         <label className="text-xs text-zinc-500 uppercase font-bold tracking-wider">
           Rating
@@ -38,7 +37,6 @@ export const Sidebar = ({
         </select>
       </div>
 
-      {/* Список магазинів */}
       <div className="flex flex-col gap-2 overflow-y-auto">
         {shops.length === 0 ? (
           <p className="text-zinc-500 text-sm p-4 text-center">

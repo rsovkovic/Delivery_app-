@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Here is a clean, professional README.md in English for your project.
 
-## Getting Started
+🚚 Delivery App
+A fast and responsive food delivery platform built with Next.js, TypeScript, and MongoDB. This application allows users to browse menus from different shops, manage a shopping cart, and track their order history.
 
-First, run the development server:
+✨ Features
+Shop Navigation: Filter and browse products from various restaurants/shops.
 
-```bash
+Smart Cart (Zustand): Add/remove items, update quantities, and calculate totals in real-time.
+
+Order History: Search and view past orders using Email or Phone number.
+
+Repeat Order: Instantly re-add items from a previous order back into the cart with one click.
+
+Responsive Design: Fully optimized for mobile and desktop using Tailwind CSS.
+
+🛠 Tech Stack
+Frontend: React 19, Next.js 15 (App Router), Tailwind CSS.
+
+Backend: Next.js API Routes (Serverless).
+
+Database: MongoDB with Mongoose ODM.
+
+State Management: Zustand (Persisted cart state).
+
+Form Handling: React Hook Form + Zod validation.
+
+Type Safety: TypeScript (Strict mode, no any).
+
+📦 Installation & Setup
+Clone the repository:
+
+Bash
+git clone https://github.com/rsovkovic/Delivery_app-.git
+cd Delivery_app-
+Install dependencies:
+
+Bash
+npm install
+Configure Environment Variables:
+Create a .env.local file in the root directory:
+
+Фрагмент коду
+MONGODB_URI=your_mongodb_connection_string
+Run the development server:
+
+Bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Open http://localhost:3000 to view it in the browser.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+🗄 Data Schema (Orders)
+The application uses a structured Mongoose schema to ensure data integrity:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Customer: Object containing name, email, phone, and address.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Items: Array of products including productId, name, price, quantity, and image.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Metadata: totalPrice, status, and createdAt timestamps.

@@ -28,6 +28,12 @@ export default function Header() {
             </span>
           )}
         </Link>
+        <Link
+          href="/history"
+          className="text-zinc-400 hover:text-white transition-colors"
+        >
+          History
+        </Link>
       </nav>
 
       <div className="text-orange-600 font-bold tracking-tighter text-xl">

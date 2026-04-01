@@ -2,22 +2,49 @@ import { connectMongoDB } from '@/db/connectMongoDB'; // Переконайте�
 import { Shop } from '@/models/shop';
 import { NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    // 1. Підключаємося до БД
     await connectMongoDB();
 
-    // 2. Отримуємо всі магазини з бази
-    // .find({}) означає "знайди все без фільтрів"
-    const shops = await Shop.find({});
+    const { searchParams } = new URL(request.url);
+    const shopId = searchParams.get('shopId');
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '3');
+    const skip = (page - 1) * limit;
 
-    // 3. Повертаємо результат у форматі JSON
-    return NextResponse.json(shops, { status: 200 });
-  } catch (error) {
-    console.error('Помилка при отриманні магазинів:', error);
+    // const shops = await Shop.find({});
+    if (!shopId) {
+      const shops = await Shop.find({});
+      return NextResponse.json(shops, { status: 200 });
+    }
+
+    const shop = await Shop.findById(shopId, {
+      products: { $slice: [skip, limit] },
+      name: 1,
+      address: 1,
+      rating: 1,
+    });
+
+    if (!shop) {
+      return NextResponse.json({ error: 'Shop not found' }, { status: 404 });
+    }
+
+    const fullShop = await Shop.findById(shopId);
+    const totalProducts = fullShop?.products.length || 0;
+    const hasMore = skip + limit < totalProducts;
+
+    //   return NextResponse.json(shops, { status: 200 });
+    // }
     return NextResponse.json(
-      { error: 'Не вдалося завантажити список магазинів' },
-      { status: 500 },
+      {
+        products: shop.products,
+        hasMore,
+        totalProducts,
+      },
+      { status: 200 },
     );
+  } catch (error) {
+    console.error('Error getting data:', error);
+    return NextResponse.json({ error: 'Failed to load data' }, { status: 500 });
   }
 }

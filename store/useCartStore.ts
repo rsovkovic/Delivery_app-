@@ -84,6 +84,7 @@ interface CartState {
   addToCart: (product: Product) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, delta: number) => void;
+  replaceCart: (newItems: CartItem[], shopId: string) => void;
   clearCart: () => void;
   getTotalPrice: () => number;
   getTotalItems: () => number;
@@ -154,6 +155,12 @@ export const useCartStore = create<CartState>()(
 
       getTotalItems: () => {
         return get().items.reduce((total, item) => total + item.quantity, 0);
+      },
+      replaceCart: (newItems, shopId) => {
+        set({
+          items: newItems,
+          activeShopId: shopId,
+        });
       },
     }),
     {
