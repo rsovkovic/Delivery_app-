@@ -18,7 +18,6 @@ export const ProductFilters = ({
   return (
     <div className="flex flex-col gap-4 mb-6 p-4 bg-zinc-900/50 rounded-xl border border-zinc-800">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        {/* Категорії (Мультиселект) */}
         <div className="flex flex-wrap gap-2 items-center">
           <span className="text-zinc-500 text-xs font-bold uppercase tracking-wider mr-2">
             filter:
@@ -47,10 +46,9 @@ export const ProductFilters = ({
           )}
         </div>
 
-        {/* Сортування (Dropdown за ТЗ) */}
         <div className="flex items-center gap-2">
           <span className="text-zinc-500 text-xs font-bold uppercase tracking-wider">
-            Sort:
+            sort
           </span>
           <select
             value={sortBy}

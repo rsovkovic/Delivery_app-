@@ -1,4 +1,3 @@
-// src/components/ProductGrid.tsx
 import { ProductCard } from '@/components/ProductCard/ProductCard';
 import { Product } from '@/types/shop';
 
