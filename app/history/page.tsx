@@ -129,8 +129,6 @@ export default function HistoryPage() {
                         <Image
                           src={item.image}
                           alt={item.name}
-                          // width={400}
-                          // height={300}
                           fill
                           className="object-cover"
                         />

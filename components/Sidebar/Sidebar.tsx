@@ -16,11 +16,11 @@ export const Sidebar = ({
 }: SidebarProps) => {
   const cartActiveShopId = useCartStore((state) => state.activeShopId);
   return (
-    <aside className="w-1/4 border bg-zinc-900 rounded-2xl border-zinc-800 p-6 flex flex-col gap-6">
-      <h2 className="text-xl font-bold">Shops</h2>
+    <aside className="w-full md:w-1/4 border bg-zinc-900 rounded-2xl border-zinc-800 p-4 md:p-6 flex flex-col gap-4 md:gap-6">
+      <h2 className="text-xl font-bold md:text-left text-center">Shops</h2>
 
       <div className="flex flex-col gap-2">
-        <label className="text-xs text-zinc-500 uppercase font-bold tracking-wider">
+        <label className="text-xs text-zinc-500 uppercase font-bold tracking-wider md:text-left text-center">
           Rating
         </label>
         <select
@@ -37,7 +37,8 @@ export const Sidebar = ({
         </select>
       </div>
 
-      <div className="flex flex-col gap-2 overflow-y-auto">
+      {/* <div className="flex flex-col gap-2 overflow-y-auto"> */}
+      <div className="flex md:flex-col gap-3 overflow-x-auto md:overflow-y-auto pb-2 md:pb-0">
         {shops.length === 0 ? (
           <p className="text-zinc-500 text-sm p-4 text-center">
             No stores found
@@ -53,7 +54,7 @@ export const Sidebar = ({
                 key={shop._id}
                 disabled={isLocked}
                 onClick={() => onShopSelect(shop)}
-                className={`p-4 rounded-xl text-left transition-all border ${
+                className={`p-4 rounded-xl text-left transition-all border shrink-0 min-w-40 md:min-w-0 snap-start relative ${
                   isLocked
                     ? 'opacity-30 cursor-not-allowed bg-zinc-950 border-transparent grayscale'
                     : activeShopId === shop._id
@@ -61,7 +62,7 @@ export const Sidebar = ({
                       : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-600'
                 }`}
               >
-                <div className="flex justify-between items-center">
+                <div className="flex sm:justify-between items-center gap-2">
                   <p className="font-medium">{shop.name}</p>
                   <div className="flex items-center gap-1 mt-1">
                     <span className="text-yellow-400 text-xs">★</span>
@@ -78,8 +79,8 @@ export const Sidebar = ({
                 </div>
 
                 {isLocked && (
-                  <span className="absolute inset-0 flex items-center justify-center text-[10px] text-white font-bold uppercase tracking-tighter opacity-0 hover:opacity-100 transition-opacity">
-                    Cart locked to another shop
+                  <span className="absolute inset-0 flex items-center justify-center text-[8px] text-white font-bold uppercase tracking-tighter opacity-0 hover:opacity-100 transition-opacity bg-black/60 rounded-xl px-1 text-center">
+                    locked to another shop
                   </span>
                 )}
               </button>

@@ -8,9 +8,6 @@ if (!MONGO_URL) {
   );
 }
 
-/**
- * Глобальне кешування для запобігання перевантаженню з'єднань
- */
 let cached = global.mongoose;
 
 if (!cached) {
@@ -27,7 +24,6 @@ export const connectMongoDB = async () => {
       bufferCommands: false,
     };
 
-    // Зберігаємо проміс підключення
     cached.promise = mongoose
       .connect(MONGO_URL, opts)
       .then((mongooseInstance) => {

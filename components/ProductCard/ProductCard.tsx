@@ -4,7 +4,7 @@ import { useCartStore } from '@/store/useCartStore';
 
 interface ProductCardProps {
   product: Product;
-  // onAddToCart: (product: IProduct) => void; // Додамо пізніше для кошика
+  // onAddToCart: (product: IProduct) => void;
 }
 
 export const ProductCard = ({ product }: ProductCardProps) => {

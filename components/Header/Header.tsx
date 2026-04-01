@@ -8,7 +8,7 @@ export default function Header() {
   const totalItems = useCartStore((state) => state.getTotalItems());
 
   return (
-    <header className="h-16 border-b border-zinc-800 flex items-center justify-between px-8 bg-black sticky top-0 z-40">
+    <header className=" gap-4 h-16 border-b border-zinc-800 flex items-center justify-between px-8 bg-black sticky top-0 z-40">
       <nav className="flex gap-6">
         <Link
           href="/"
@@ -36,7 +36,7 @@ export default function Header() {
         </Link>
       </nav>
 
-      <div className="text-orange-600 font-bold tracking-tighter text-xl">
+      <div className=" text-orange-600/80 font-bold tracking-tighter text-sm sm:text-xl">
         Delivery App
       </div>
     </header>

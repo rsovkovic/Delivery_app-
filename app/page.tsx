@@ -122,16 +122,13 @@ export default function Home() {
     return <div className="p-10 text-center text-white">Loading...</div>;
 
   return (
-    <main className="flex min-h-screen bg-zinc-950 text-zinc-100 p-6 gap-6 overflow-hidden">
-      {/*  */}
+    <main className="flex flex-col md:flex-row min-h-screen bg-zinc-950 text-zinc-100 p-6 gap-6">
       <Sidebar
         shops={filteredShops}
         activeShopId={activeShop?._id}
         onShopSelect={handleShopChange}
         onRatingChange={setRatingRange}
       />
-
-      {/*  */}
       <section className="flex-1 bg-zinc-900 rounded-2xl p-6 border border-zinc-800 overflow-y-auto ">
         <ProductFilters
           categories={allCategories}
